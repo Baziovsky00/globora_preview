@@ -81,6 +81,10 @@
 }
 
 @media (max-width: 1000px) {
+
+    .content {
+        padding-bottom: 30px;
+    }
     .bottomContent {
         flex-direction: column;
         gap: 50px;
@@ -94,6 +98,8 @@
     .imgContainer {
         display: flex;
         justify-content: center !important;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
