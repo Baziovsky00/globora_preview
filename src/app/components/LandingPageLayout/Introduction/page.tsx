@@ -161,12 +161,12 @@ const whatWeExport = [
     {
         title: 'Artykuły spożywcze',
         subTitle: '(produkty naturalne, BIO, przetwory, słodycze)',
-        img: 'artykuly-spo.jfif'
+        img: 'artykuly-spo.jpg'
     },
     {
         title: 'Surowce i półprodukty',
         subTitle: '(chemia, tworzywa sztuczne, komponenty przemysłowe)',
-        img: 'surowce.jfif'
+        img: 'surowce.jpg'
     },
     {
         title: 'Artykuły gospodarstwa domowego',
@@ -176,11 +176,11 @@ const whatWeExport = [
     {
         title: 'Produkty budowlane i wykończeniowe',
         subTitle: '',
-        img: 'prod-budowlanych.jfif'
+        img: 'prod-budowlanych.jpg'
     },
     {
         title: 'Odzież i tekstylia',
         subTitle: '',
-        img: 'tekstylia.jfif'
+        img: 'tekstylia.jpg'
     }
 ];

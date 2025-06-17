@@ -67,7 +67,7 @@ const Introduction2 = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.3, delay: 0.2 }}>
-                        <Image src={'/images/globe.jfif'} width={500} height={500} alt='Globora - export towarów na cały świat' />
+                        <Image src={'/images/globe.jpg'} width={500} height={500} alt='Globora - export towarów na cały świat' />
                     </motion.div>
                 </div>
             </div>
