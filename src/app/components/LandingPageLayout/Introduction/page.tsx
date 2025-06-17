@@ -10,10 +10,13 @@ const Introduction = () => {
     const [dragConstraints, setDragConstraints] = useState(0);
     const [maxScroll, setMaxScroll] = useState(0);
     const [showArrows, setShowArrows] = useState(false);
+    const [isDragging, setIsDragging] = useState(false); // Track drag state
     const x = useMotionValue(0);
     
-    // Calculate constraints and max scroll
+    // Calculate constraints and max scroll with debounce
     useEffect(() => {
+        let resizeTimer: NodeJS.Timeout;
+        
         const updateConstraints = () => {
             if (carouselRef.current && containerRef.current) {
                 const carouselWidth = containerRef.current.scrollWidth;
@@ -26,13 +29,23 @@ const Introduction = () => {
             }
         };
 
+        const debouncedUpdate = () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateConstraints, 100);
+        };
+
         updateConstraints();
-        window.addEventListener('resize', updateConstraints);
-        return () => window.removeEventListener('resize', updateConstraints);
+        window.addEventListener('resize', debouncedUpdate);
+        return () => {
+            window.removeEventListener('resize', debouncedUpdate);
+            clearTimeout(resizeTimer);
+        };
     }, []);
 
-    // Handle arrow navigation
-    const handleArrowClick = useCallback((direction: any) => {
+    // Handle arrow navigation with momentum
+    const handleArrowClick = useCallback((direction: 'left' | 'right') => {
+        if (isDragging) return; // Prevent interaction during drag
+        
         if (!containerRef.current || !carouselRef.current) return;
         
         const step = carouselRef.current.offsetWidth * 0.7;
@@ -45,8 +58,14 @@ const Introduction = () => {
             newX = Math.max(currentX - step, -maxScroll);
         }
         
-        animate(x, newX, { duration: 0.5, ease: "easeOut" });
-    }, [maxScroll, x]);
+        // Use spring physics for smoother animation
+        animate(x, newX, { 
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+            restDelta: 0.001
+        });
+    }, [maxScroll, x, isDragging]);
 
     return (
         <div className={styles.page}>
@@ -94,18 +113,28 @@ const Introduction = () => {
                             className={styles.container}
                             drag="x"
                             dragConstraints={{ right: 0, left: -dragConstraints }}
-                            dragElastic={0.1}
-                            dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+                            dragElastic={0.05} // Reduced elasticity for less bounce
+                            dragMomentum={false} // Disable momentum to prevent overscroll issues
+                            dragTransition={{ 
+                                bounceStiffness: 150, 
+                                bounceDamping: 30,
+                                power: 0.1,
+                                timeConstant: 200
+                            }}
                             style={{ x }}
                             initial={{ opacity: 0, scale: 0.9, y: 50 }}
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.2 }}
+                            onDragStart={() => setIsDragging(true)}
+                            onDragEnd={() => setIsDragging(false)}
                         >
                             {whatWeExport.map((item, i) => (
-                                <div
+                                <motion.div
                                     className={styles.exportBlock}
                                     key={i}
+                                    whileHover={{ scale: 1.02 }} // Subtle hover effect
+                                    transition={{ duration: 0.2 }}
                                 >
                                     <Image
                                         src={'/images/' + item.img}
@@ -113,13 +142,14 @@ const Introduction = () => {
                                         height={550}
                                         alt={`Globora export towarów - ${item.title}`}
                                         draggable="false"
+                                        priority={i < 2} // Prioritize first 2 images
                                     />
                                     <div className={styles.blockContent}>
                                         <h4>{item.title}</h4>
                                         <p>{item.subTitle}</p>
                                     </div>
                                     <div className={styles.bcgOverlay} />
-                                </div>
+                                </motion.div>
                             ))}
                         </motion.div>
                     </div>
@@ -127,24 +157,28 @@ const Introduction = () => {
                     {/* Arrow navigation container */}
                     {showArrows && (
                         <div className={styles.arrowsContainer}>
-                            <button 
+                            <motion.button 
                                 className={styles.arrowButton}
                                 onClick={() => handleArrowClick('left')}
                                 aria-label="Poprzedni element"
+                                whileTap={{ scale: 0.95 }}
+                                disabled={isDragging || x.get() === 0}
                             >
                                 <svg viewBox="0 0 24 24">
                                     <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
                                 </svg>
-                            </button>
-                            <button 
+                            </motion.button>
+                            <motion.button 
                                 className={styles.arrowButton}
                                 onClick={() => handleArrowClick('right')}
                                 aria-label="Następny element"
+                                whileTap={{ scale: 0.95 }}
+                                disabled={isDragging || x.get() === -maxScroll}
                             >
                                 <svg viewBox="0 0 24 24">
                                     <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
                                 </svg>
-                            </button>
+                            </motion.button>
                         </div>
                     )}
                     
