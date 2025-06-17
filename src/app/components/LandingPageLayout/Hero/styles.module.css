@@ -1,0 +1,211 @@
+.page h1 {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 3.8em;
+    font-weight: 900;
+    line-height: 1.15;
+    /* color: #196DF3; */
+    color: #173a72;
+    padding-inline: 10px;
+    text-shadow: -5px 5px 2px rgba(48, 48, 48, 0.068);
+}
+
+
+.page h2 {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 1.5em;
+    max-width: 1400px;
+    font-weight: 500;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: 10px;
+    line-height: 1.3;
+}
+
+.globe div {
+    z-index: -1;
+    /* margin-top: 250px; */
+    position: absolute;
+    top: 260px;
+}
+
+.countries {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    height: 450px;
+}
+
+.countries div {
+    height: 80px;
+    /* background-color: #00000010; */
+    display: flex;
+    align-items: start;
+    /* background-color: black; */
+}
+
+.countries div p {
+    /* border: 1px solid rgb(41, 41, 41); */
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+    transition: 0.06s ease-in-out;
+    cursor: pointer;
+    font-size: 1.2em;
+    /* background-color: transparent; */
+    background: linear-gradient(90deg, #689ff8 0%, #3475dd 100%);
+    opacity: 0;
+    animation: parAnim 2s ease-in-out forwards;
+    border: 4px dashed rgba(5, 14, 56, 0);
+    white-space: nowrap;
+}
+
+.countries div p:hover {
+    scale: 1.05;
+    border: 1px solid rgba(0, 0, 0, 0);
+
+}
+
+.countryEven {
+    justify-content: end;
+}
+
+.countryOdd {
+    justify-content: start;
+}
+
+@keyframes parAnim {
+    100% {
+        opacity: 1;
+        padding: 18px;
+        box-shadow: -5px 5px 5px #ffad31a8;
+        ;
+        border: 4px dashed rgba(5, 14, 56, 0.226);
+        /* background-color: #689ff8; */
+        background: linear-gradient(90deg, #689ff8 0%, #3475dd 100%);
+        /* border: 4px dashed #ffad31; */
+    }
+}
+
+.block0 {
+    animation: anim1 2s ease-in-out forwards;
+}
+
+.block1 {
+    animation: anim2 2s ease-in-out forwards;
+}
+
+.block2 {
+    animation: anim3 2s ease-in-out forwards;
+}
+
+.block3 {
+    animation: anim4 2s ease-in-out forwards;
+}
+
+.block4 {
+    animation: anim5 2s ease-in-out forwards;
+}
+
+.block5 {
+    animation: anim6 2s ease-in-out forwards;
+}
+
+@keyframes anim1 {
+    100% {
+        height: 120px;
+        padding-top: 45px;
+        padding-right: 230px;
+    }
+}
+
+@keyframes anim2 {
+    100% {
+        height: 120px;
+        padding-top: 30px;
+        padding-left: 230px;
+    }
+}
+
+@keyframes anim3 {
+    100% {
+        height: 120px;
+        padding-top: 45px;
+        padding-right: 270px;
+    }
+}
+
+@keyframes anim4 {
+    100% {
+        height: 120px;
+        padding-top: 30px;
+        padding-left: 300px;
+    }
+}
+
+@keyframes anim5 {
+    100% {
+        height: 120px;
+        padding-top: 45px;
+        padding-right: 210px;
+    }
+}
+
+@keyframes anim6 {
+    100% {
+        height: 120px;
+        padding-top: 30px;
+        padding-left: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page h1 {
+        font-size: 3em;
+        margin-top: 40px;
+    }
+
+    .page h2 {
+        font-size: 1.3em;
+    }
+}
+
+
+
+
+@media (max-width: 1180px) {
+    .countries {
+        display: none;
+    }
+
+    .page h2 {
+        margin-bottom: 450px;
+    }
+}
+
+@media (max-width: 650px) {
+    .globe div {
+        top: 380px;
+    }
+}
+
+
+@media (max-width: 490px) {
+    .globe div {
+        top: 480px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page h1 {
+        margin-top: 100px;
+    }
+    .page h2 {
+        margin-bottom: 350px;
+    }
+}
