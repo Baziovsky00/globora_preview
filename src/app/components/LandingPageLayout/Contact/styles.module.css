@@ -47,6 +47,7 @@
     background-color: rgb(240, 240, 240);
     padding: 15px 20px;
     border-radius: 6px;
+    width: 100%;
     border: 1px solid #b9b9b99a;
 }
 
@@ -142,6 +143,7 @@
     }
 
     .contact p {
+        width: 98%;
         padding: 10px 8px;
     }
 
@@ -159,5 +161,9 @@
 
     .page h3 {
         font-size: 1.3em;
+    }
+
+    .contact p {
+        width: 95%;
     }
 }
