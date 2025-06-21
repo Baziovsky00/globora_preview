@@ -112,14 +112,14 @@
 
 @media (max-width: 768px) {
     .page h2 {
-        font-size: 2.8em;
+        font-size: 2.2em;
     }
 
     .page h3 {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .marketInfo {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 }

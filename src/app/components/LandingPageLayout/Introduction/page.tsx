@@ -3,6 +3,7 @@ import styles from './styles.module.css';
 import { motion, useMotionValue, animate } from "framer-motion";
 import Image from 'next/image';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useInView } from "framer-motion";
 
 const Introduction = () => {
     const carouselRef = useRef<HTMLDivElement>(null);
@@ -11,15 +12,18 @@ const Introduction = () => {
     const [maxScroll, setMaxScroll] = useState(0);
     const [showArrows, setShowArrows] = useState(false);
     const x = useMotionValue(0);
-    
-    // Calculate constraints and max scroll
+
+    const h2Ref = useRef<HTMLDivElement>(null);
+    const isInView = useInView(h2Ref, { once: true, margin: "-100px" });
+
+
     useEffect(() => {
         const updateConstraints = () => {
             if (carouselRef.current && containerRef.current) {
                 const carouselWidth = containerRef.current.scrollWidth;
                 const containerWidth = carouselRef.current.offsetWidth;
                 const newConstraints = Math.max(0, carouselWidth - containerWidth);
-                
+
                 setDragConstraints(newConstraints);
                 setMaxScroll(newConstraints);
                 setShowArrows(newConstraints > 0);
@@ -31,62 +35,90 @@ const Introduction = () => {
         return () => window.removeEventListener('resize', updateConstraints);
     }, []);
 
-    // Handle arrow navigation
     const handleArrowClick = useCallback((direction: any) => {
         if (!containerRef.current || !carouselRef.current) return;
-        
+
         const step = carouselRef.current.offsetWidth * 0.7;
         const currentX = x.get();
         let newX = currentX;
-        
+
         if (direction === 'left') {
             newX = Math.min(currentX + step, 0);
         } else {
             newX = Math.max(currentX - step, -maxScroll);
         }
-        
+
         animate(x, newX, { duration: 0.5, ease: "easeOut" });
     }, [maxScroll, x]);
 
     return (
         <div className={styles.page}>
             <div className={styles.blocks}>
-                <div className={styles.block}>
-                    <div className={styles.headerCover}>
-                        <motion.h2
-                            initial={{ opacity: 1, y: 50 }}
+                <div className={styles.topAnimation}>
+                    <div className={styles.block}>
+                        <div className={styles.headerCover}>
+                            <motion.h2
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3, delay: 0.2 }}
+                                ref={h2Ref}
+                            >
+                                KIM JESTEŚMY
+                            </motion.h2>
+                        </div>
+                        <motion.h3
+                            initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.3, delay: 0.2 }} 
+                            transition={{ duration: 0.3, delay: 0.2 }}
                         >
-                            Kim Jesteśmy
-                        </motion.h2>
+                            Globora to dynamicznie rozwijająca się firma specjalizująca się w eksporcie polskich produktów na rynki międzynarodowe. Łączymy lokalne wartości z globalnym zasięgiem, oferując naszym partnerom najwyższej jakości towary oraz kompleksową obsługę logistyczno-handlową.
+                        </motion.h3>
                     </div>
-                    <motion.h3
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                    >
-                        Globora to dynamicznie rozwijająca się firma specjalizująca się w eksporcie polskich produktów na rynki międzynarodowe. Łączymy lokalne wartości z globalnym zasięgiem, oferując naszym partnerom najwyższej jakości towary oraz kompleksową obsługę logistyczno-handlową.
-                    </motion.h3>
+                    <div className={isInView ? styles.animBlockTrue : styles.animBlockOff}>
+                        <motion.h3
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.3 }}
+                            style={{ marginTop: 32, marginBottom: 0 }}
+                        >
+                            Eksportujemy na:
+                        </motion.h3>
+                        <div className={`${styles.countries} ${isInView ? styles.countriesInView : ''}`}>
+                            {
+                                countries.map((country, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className={`${i % 2 === 0 ? styles.countryEven : styles.countryOdd} ${styles[`block${i}`]}`}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.6, delay: i * 0.2 }} >
+                                        <p>{country}</p>
+                                    </motion.div>
+                                ))
+                            }
+                        </div>
+                    </div>
                 </div>
-                
+
                 <div className={styles.block} style={{ marginLeft: 'auto' }}>
                     <div className={styles.headerCover}>
                         <motion.h2
                             initial={{ opacity: 1, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.3, delay: 0.2 }} 
+                            transition={{ duration: 0.3, delay: 0.2 }}
                         >
-                            Eksportujemy
+                            EKSPORTUJEMY
                         </motion.h2>
                     </div>
-                    
+
                     {/* Carousel Wrapper */}
-                    <div 
-                        ref={carouselRef} 
+                    <div
+                        ref={carouselRef}
                         className={styles.carouselWrapper}
                     >
                         <motion.div
@@ -123,11 +155,11 @@ const Introduction = () => {
                             ))}
                         </motion.div>
                     </div>
-                    
+
                     {/* Arrow navigation container */}
                     {showArrows && (
                         <div className={styles.arrowsContainer}>
-                            <button 
+                            <button
                                 className={styles.arrowButton}
                                 onClick={() => handleArrowClick('left')}
                                 aria-label="Poprzedni element"
@@ -136,7 +168,7 @@ const Introduction = () => {
                                     <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" />
                                 </svg>
                             </button>
-                            <button 
+                            <button
                                 className={styles.arrowButton}
                                 onClick={() => handleArrowClick('right')}
                                 aria-label="Następny element"
@@ -147,7 +179,7 @@ const Introduction = () => {
                             </button>
                         </div>
                     )}
-                    
+
                     <p className={styles.info}>Dostosowujemy ofertę do potrzeb konkretnego rynku i odbiorcy.</p>
                 </div>
             </div>
@@ -184,3 +216,5 @@ const whatWeExport = [
         img: 'tekstylia.jpg'
     }
 ];
+
+const countries = ["Europa Zachodnia", "Europa Środkowo wschodnia", "Bliski Wschód", "Azja Południowo-Wschodnia", "Afryka", "Ameryka Północna"]

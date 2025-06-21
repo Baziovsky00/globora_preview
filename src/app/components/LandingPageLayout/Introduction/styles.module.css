@@ -11,23 +11,26 @@
 }
 
 .page h2 {
-    font-size: 3.2em;
+    font-size: 3em;
     font-weight: 900;
     margin-inline: 10px;
-    color: #173a72;
+    /* color: #173a72; */
+    color: #414141;
+    ;
     width: 500px;
 }
 
 .page h3 {
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin-top: 10px;
     padding-inline: 10px;
     font-weight: 500;
+    max-width: 500px;
 }
 
 .headerCover {
     max-width: 1400px;
-    margin-top: 80px;
+    margin-top: 50px;
     display: flex;
     overflow-y: hidden;
 }
@@ -141,14 +144,130 @@
     fill: white;
 }
 
+.countries {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    margin-inline: auto;
+    margin-top: 20px;
+    position: fixed;
+    padding-inline: 20px;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    transition: all 0.4s cubic-bezier(.4, 0, .2, 1);
+    width: 100%;
+}
+
+.countriesInView {
+    position: static;
+    margin-bottom: 0;
+    padding-inline: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    justify-content: start;
+    align-items: start;
+    transition: all 0.4s cubic-bezier(.4, 0, .2, 1);
+    padding-inline: 10px;
+}
+
+.countries div {
+    background: linear-gradient(90deg, #d6edff 0%, #dce2ff 100%);
+    color: transparent;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.countries p {
+    color: rgb(58, 58, 58);
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 12px;
+    text-align: center;
+    padding-inline: 10px;
+    white-space: nowrap;
+}
+
+.countriesInView p {
+    padding-block: 20px;
+    white-space: nowrap;
+}
+
+
+.countries div:hover {
+    scale: 1.02;
+    transition: 0.16s ease-in-out;
+}
+
+.topAnimation {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-bottom: 180px;
+    background: linear-gradient(140deg, #e9faff 0%, #f8f8f8  50%);
+    border-radius: 24px;
+    padding: 50px;
+    padding-bottom: 80px;
+    margin-inline: 10px;
+}
+
+.animBlockTrue {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1100px) {
+    .page h3 {
+        max-width: 100%;
+    }
+    .topAnimation {
+        flex-direction: column;
+    }
+
+    .countries {
+        display: none;
+    }
+
+    .countriesInView {
+        display: grid;
+    }
+}
+
+
 /* Media queries */
 @media screen and (max-width: 768px) {
+    .topAnimation {
+        padding: 15px;
+        padding-bottom: 70px;
+    }
+    .countriesInView {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .countriesInView div {
+        width: 100%;
+    }
+
     .page h2 {
-        font-size: 2.7em;
+        font-size: 2.2em;
+    }
+
+    .countriesInView p {
+        font-size: 1.1em;
     }
 
     .page h3 {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .exportBlock {
@@ -168,12 +287,12 @@
     .blockContent p {
         font-size: 1.1em;
     }
-    
+
     .arrowButton {
         width: 44px;
         height: 44px;
     }
-    
+
     .arrowButton svg {
         width: 20px;
         height: 20px;
@@ -184,12 +303,12 @@
     .page h2 {
         width: 100%;
     }
-    
+
     .arrowsContainer {
         margin-top: 15px;
         margin-right: 10px;
     }
-    
+
     .arrowButton {
         width: 40px;
         height: 40px;
