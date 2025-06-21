@@ -107,7 +107,7 @@ const Introduction = () => {
                 <div className={styles.block} style={{ marginLeft: 'auto' }}>
                     <div className={styles.headerCover}>
                         <motion.h2
-                            initial={{ opacity: 1, y: 50 }}
+                            initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.3, delay: 0.2 }}
